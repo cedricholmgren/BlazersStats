@@ -6,6 +6,7 @@ export default function App() {
     <View style={styles.container}>
       <ScrollView>
         <Lillard />
+        <Simons />
       </ScrollView>
     </View>
   );
@@ -13,11 +14,23 @@ export default function App() {
 
 const Lillard = () => {
   return (
-    <View>
+    <View style={styles.playerCard}>
       <Image
         style={styles.playerPicture}
         source={{
           uri: "https://assets1.sportsnet.ca/wp-content/uploads/players/nba/d/damian-lillard.png",
+        }}
+      />
+    </View>
+  );
+};
+const Simons = () => {
+  return (
+    <View style={styles.playerCard}>
+      <Image
+        style={styles.playerPicture}
+        source={{
+          uri: "https://cdn.nba.com/headshots/nba/latest/1040x760/1629014.png",
         }}
       />
     </View>
