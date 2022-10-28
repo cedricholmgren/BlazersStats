@@ -1,7 +1,21 @@
 import { StatusBar } from "expo-status-bar";
+import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 
 const App = () => {
+  const [dameStats, setDameStats] = useState(undefined);
+  async function getDameStats() {
+    const response = await fetch(
+      "https://www.balldontlie.io/api/v1/season_averages?player_ids[]=278"
+    );
+    const data = await response.json();
+    return data;
+  }
+
+  useEffect(() => {
+    getDameStats().then((data) => setDameStats(data));
+  }, []);
+
   return (
     <View style={styles.container}>
       <ScrollView>
@@ -13,11 +27,11 @@ const App = () => {
   );
 };
 
-// const GetStats = () => {
-//   fetch("https://www.balldontlie.io/api/v1/season_averages?player_ids[]=278");
-// };
+const Lillard = (props) => {
+  console.log(props);
+  if (!props.dameStats) return <Text>Loading</Text>;
+  const dameStats = props.dameStats;
 
-const Lillard = () => {
   return (
     <View style={styles.playerCard}>
       <Image
@@ -27,10 +41,10 @@ const Lillard = () => {
         }}
       />
       <View style={styles.playerBio}>
-        <Text>Damien Lillard - 6'2" 200lbs</Text>
+        <Text>Damian Lillard - 6'2" 200lbs</Text>
       </View>
       <View style={styles.playerStats}>
-        <Text></Text>
+        <Text>Games played: {dameStats["data"][0]["games_played"]}</Text>
       </View>
     </View>
   );
