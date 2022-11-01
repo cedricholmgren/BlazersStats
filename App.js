@@ -3,24 +3,23 @@ import { useEffect, useState } from "react";
 import { StyleSheet, Text, View, ScrollView, Image } from "react-native";
 
 const App = () => {
-  const [dameStats, setDameStats] = useState(undefined);
-  async function getDameStats() {
+  const [stats, setStats] = useState(undefined);
+  async function getstats() {
     const response = await fetch(
-      "https://www.balldontlie.io/api/v1/season_averages?player_ids[]=278"
+      "https://www.balldontlie.io/api/v1/season_averages?player_ids[]=278&player_ids[]=419&player_ids[]=202&player_ids[]=182&player_ids[]=349&player_ids[]=38017690&player_ids[]=485&player_ids[]=2189&player_ids[]=666729&player_ids[]=147&player_ids[]=17896041&player_ids[]=38017711&player_ids[]=17896058&player_ids[]=17896028"
     );
     const data = await response.json();
     return data;
   }
-
   useEffect(() => {
-    getDameStats().then((data) => setDameStats(data));
+    getstats().then((data) => setStats(data));
   }, []);
 
   return (
     <View style={styles.container}>
       <ScrollView>
-        <Lillard />
-        <Simons />
+        <Lillard stats={stats} />
+        <Simons stats={stats} />
         <Hart />
       </ScrollView>
     </View>
@@ -29,8 +28,8 @@ const App = () => {
 
 const Lillard = (props) => {
   console.log(props);
-  if (!props.dameStats) return <Text>Loading</Text>;
-  const dameStats = props.dameStats;
+  if (!props.stats) return <Text>Loading</Text>;
+  const stats = props.stats;
 
   return (
     <View style={styles.playerCard}>
@@ -41,15 +40,19 @@ const Lillard = (props) => {
         }}
       />
       <View style={styles.playerBio}>
-        <Text>Damian Lillard - 6'2" 200lbs</Text>
+        <Text>Damian Lillard - 6'2" 195lbs 32 YO</Text>
       </View>
       <View style={styles.playerStats}>
-        <Text>Games played: {dameStats["data"][0]["games_played"]}</Text>
+        <Text>Games played: {stats["data"][3]["games_played"]}</Text>
+        <Text>Mins played: {stats["data"][3]["min"]}</Text>
+        <Text>Mins played: {stats["data"][3]["min"]}</Text>
       </View>
     </View>
   );
 };
-const Simons = () => {
+const Simons = (props) => {
+  if (!props.stats) return <Text>Loading</Text>;
+  const stats = props.stats;
   return (
     <View style={styles.playerCard}>
       <Image
@@ -59,11 +62,13 @@ const Simons = () => {
         }}
       />
       <View style={styles.playerBio}>
-        <Text>Anfernee Simons - 6'3" 200lbs</Text>
+        <Text>Anfernee Simons - 6'3" 181lbs 23 YO</Text>
       </View>
 
       <View style={styles.playerStats}>
-        <Text></Text>
+        <Text>Games played: {stats["data"][5]["games_played"]}</Text>
+        <Text>Mins played: {stats["data"][5]["min"]}</Text>
+        <Text>Mins played: {stats["data"][5]["min"]}</Text>
       </View>
     </View>
   );
@@ -78,7 +83,7 @@ const Hart = () => {
         }}
       />
       <View style={styles.playerBio}>
-        <Text>Josh Hart - 6'5" 200lbs</Text>
+        <Text>Josh Hart - 6'5" 215lbs 27</Text>
       </View>
       <View style={styles.playerStats}></View>
     </View>
